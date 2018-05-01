@@ -167,7 +167,7 @@ def create_pdf(image_data, url, ip_address, time, server, filename, title):
 	pdf = pdf.output(filename, 'S')
 
 	# Setup the bucket.
-	c = boto.connect_s3('AKIAJHHYYCKTBATBH3IQ', 'aLW+SvA/7pZNhCkjGXZN17WyacD+ELEoRPhcnU+G')
+	c = boto.connect_s3('AKIAISDFK264UFMI5OUQ', 'NLrGixeVsrLLim1pzZTzfbCshth2yRqsvuYj4WKN')
 	b = c.get_bucket('tigersandflies', validate=False)
 	k = Key(b)
 	k.key = 'screenshot_pdfs/' + filename
