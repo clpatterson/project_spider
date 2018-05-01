@@ -124,7 +124,8 @@ class xizang_cdi(scrapy.Spider):
                         	meta={'ip_address': ip_address,
                         		'title': title,
                         		'filename': filename,
-                        		'server': server})
+                        		'server': server
+                        		'proxy': 'http://pattersoncharlesl:PASSWORD@us-wa.proxymesh.com:31280'})
 
 	def create_screenshot(self, response):
 
