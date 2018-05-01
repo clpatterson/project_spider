@@ -1,4 +1,5 @@
 #!bin/bash
+source /home/ec2-user/venv/python36/bin/activate
 scrapy crawl anwei
 scrapy crawl ccdi
 scrapy crawl chongqing

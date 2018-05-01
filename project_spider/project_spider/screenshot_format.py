@@ -58,7 +58,7 @@ def long_slice(image_data):
 
 
 class PDF(FPDF):
-
+	FPDF_FONTPATH = "/home/ec2-user/venv/python36/local/lib/python3.6/dist-packages/fpdf-1.7.2-py3.6.egg/fpdf/font"
 	# Overide default so img can be inserted as bit object
 	def load_resource(self, reason, filename):
 		if reason == "image":
