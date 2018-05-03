@@ -18,6 +18,17 @@ NEWSPIDER_MODULE = ''
 SPLASH_URL = 'http://0.0.0.0:8050'
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
+#PROXY = """splash:on_request(function(request)
+#    request:set_proxy{
+#        host = http://us-wa.proxymesh.com,
+#        port = 31280,
+#        username = pattersoncharlesl,
+#        password = KUtKehiWcRcorGgM2,
+#    }
+#    return splash:html()
+#end)"""
+
+
 # Local development database
 #DATABASE = {
 #    'drivername': 'postgres',
