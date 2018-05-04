@@ -18,7 +18,11 @@ class ccdi_scraper(scrapy.Spider):
 			yield response.follow(href, self.parse_doclist)
 
 	def parse_doclist(self,response):
-		# Get IP address.
+
+		body = response.body
+		body = body.decode('utf-8')
+
+		# Get IP address
 		url = response.url
 		base_url = re.findall(r'http://(.*?)/', url)
 		try:
@@ -31,8 +35,11 @@ class ccdi_scraper(scrapy.Spider):
 		for href in urls:
 			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address})
 
+		total_pages = re.findall(r'createPageHTML\((\d+?),', body)
+		total_pages = int(total_pages[0])
+
 		# Create pagination links and follow them until no pages are left
-		for x in range(1,50):
+		for x in range(1,total_pages + 1):
 			nextpage = 'index_{}.html'.format(x)
 			yield response.follow(nextpage, callback=self.parse_doclist)
 			

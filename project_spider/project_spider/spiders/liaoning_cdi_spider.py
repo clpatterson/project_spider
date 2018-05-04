@@ -108,8 +108,7 @@ class liaoning_cdi(scrapy.Spider):
                         	meta={'ip_address': ip_address,
                         		'title': title,
                         		'filename': filename,
-                        		'server': server,
-                        		'proxy': 'http://pattersoncharlesl:PKUtKehiWcRcorGgM2@us-wa.proxymesh.com:31280'})
+                        		'server': server})
 
 	def create_screenshot(self, response):
 

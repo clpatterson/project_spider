@@ -125,8 +125,7 @@ class chongqing_cdi(scrapy.Spider):
                         	meta={'ip_address': ip_address,
                         		'title': title,
                         		'filename': filename,
-                        		'server': server,
-                        		'proxy': 'http://pattersoncharlesl:KUtKehiWcRcorGgM2@us-wa.proxymesh.com:31280'})
+                        		'server': server})
 
 	def create_screenshot(self, response):
 
@@ -147,4 +146,6 @@ class chongqing_cdi(scrapy.Spider):
 		title = response.meta['title']
 
 		create_pdf(png_b64, url, ip_address, time, server, filename, title)
+
+		text = re.findall(r'>[\u3000]*(\d*?[\u4e00-\u9fff].*?)<',text_tag)
 

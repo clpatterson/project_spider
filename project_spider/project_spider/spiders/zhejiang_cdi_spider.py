@@ -63,7 +63,7 @@ class zhejiang_cdi(scrapy.Spider):
 			title_tag = title_tag.group()
 			title_tag = re.findall(r'>([\u4e00-\u9fff].*?)<',title_tag)
 			title = title_tag[3]
-		title[0]
+		title = title[0]
 
 		# Pull all tag values. 
 		text_tag = re.search(r'<div class="artCon">(.*?)<div class="artSpecial"', body, re.S)
@@ -81,11 +81,9 @@ class zhejiang_cdi(scrapy.Spider):
 
 		date_tag = re.search(r'<span id="pubtime_baidu">(.*?)<span id="source_baidu">', body, re.S)
 		date_tag = date_tag.group()
-	
 		date = re.search(r'(\d{4})-(\d{2})-(\d{2}) (\d{2})?:?(\d{2})?:?(\d{2})?', date_tag)
 		date = date.group()
 
-		
 		source_tag = re.search(r'<span id="source_baidu">(.*?)<span id="author_baidu"', body, re.S)
 		source_tag = source_tag.group()
 		source = response.xpath('//span[@id="source_baidu"]/text()').re(r'来源：\r\n\r\n([\u4e00-\u9fff]+)')
@@ -129,8 +127,7 @@ class zhejiang_cdi(scrapy.Spider):
 		yield SplashRequest(response.url,
 							self.create_screenshot,
 							endpoint='render.json',
-                        	args={'wait': 0.5, 
-                        		'proxy': 'http://pattersoncharlesl:KUtKehiWcRcorGgM2@us-wa.proxymesh.com:31280'},
+                        	args=splash_args,
                         	meta={'ip_address': ip_address,
                         		'title': title,
                         		'filename': filename,
