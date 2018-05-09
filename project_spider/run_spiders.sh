@@ -1,7 +1,7 @@
 #!bin/bash
 source /home/ec2-user/venv/python36/bin/activate
 sudo docker run -d -p 8050:8050 -p 5023:5023 scrapinghub/splash
-scrapy crawl anwei
+scrapy crawl anhui
 scrapy crawl ccdi
 scrapy crawl chongqing
 scrapy crawl fujian
@@ -28,5 +28,6 @@ scrapy crawl tianjin
 scrapy crawl xinjiang
 scrapy crawl xizang
 scrapy crawl yunnan
-#scrapy crawl zhejiang
+scrapy crawl zhejiang
 sudo docker rm $(sudo docker stop $(sudo docker ps -a -q --filter ancestor=scrapinghub/splash --format="{{.ID}}"))
+deactivate

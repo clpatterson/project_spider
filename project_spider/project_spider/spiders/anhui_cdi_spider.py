@@ -8,10 +8,10 @@ from project_spider.screenshot_format import create_pdf
 
 class anwei_cdi(scrapy.Spider):
 	"""Scrapes all the posts from the ministry level and county level
-	case announcement sections (案件发布) on the Anwei website.
+	case announcement sections (案件发布) on the Anhui website.
 	"""
 
-	name = 'anwei'
+	name = 'anhui'
 	start_urls = [
 		'http://www.ahjjjc.gov.cn/sggb/index.html',
 		'http://www.ahjjjc.gov.cn/sggb286/index.html',
@@ -99,7 +99,7 @@ class anwei_cdi(scrapy.Spider):
 
 		# Put scraped data into item pipeline.
 		item = post()
-		item['cdi'] = 'Anwei'
+		item['cdi'] = 'Anhui'
 		item['title'] = title
 		item['date'] = date
 		item['source'] = source

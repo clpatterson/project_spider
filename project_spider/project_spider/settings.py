@@ -49,10 +49,9 @@ DATABASE = {
     'database': 'tigersandflies'
 }
 
-## Crawl-once solution
-#CRAWL_ONCE_ENABLED = True
-#CRAWL_ONCE_PATH = '.scrapy/crawl_once/yunnan.sqlite'
-#CRAWL_ONCE_DEFAULT = False
+# Use Delta-fetch so items are only crawled once
+DELTAFETCH_ENABLED = True
+
 
 
 # Stealth mode
@@ -92,7 +91,7 @@ DOWNLOAD_DELAY = 2
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
 	'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
-    #'scrapy_crawl_once.CrawlOnceMiddleware': 100,
+    'scrapy_deltafetch.DeltaFetch': 101,
 #    'tutorial.middlewares.TutorialSpiderMiddleware': 543,
 }
 

@@ -97,12 +97,13 @@ class hubei_cdi(scrapy.Spider):
 
 		# Pass url to splash for screenshoting.
 		splash_args = {
-						'wait': 3.0,
+						'wait': 5.0,
         				'html': 1,
         				'png': 1,
         				'width': 600,
         				'render_all': 1,
-        				'wait': 3.0,
+        				'wait': 5.0,
+					'proxy': 'http://pattersoncharlesl:KUtKehiWcRcorGgM2@us-wa.proxymesh.com:31280',
     					}
 		yield SplashRequest(response.url,
 							self.create_screenshot,
