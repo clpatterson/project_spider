@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -30,7 +31,9 @@ class sichuan_cdi(scrapy.Spider):
 		# Follow all links for posts.
 		urls = response.xpath('//p[@class="name"]/a/@href').extract()
 		for href in urls:
-			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address, 'server': server})
+			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address,
+										'deltafetch_key': request_fingerprint(response.request),
+										'server': server})
 
 		# Get next page url.
 		next_page = response.xpath('//a[@class="page-next"]/@href').extract_first()

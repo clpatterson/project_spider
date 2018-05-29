@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -43,7 +44,8 @@ class guizhou_cdi(scrapy.Spider):
 			else:
 				url = url[0]
 			yield response.follow(url, self.parse_docs, meta={'ip_address': ip_address,
-																'server': server})
+										'deltafetch_key': request_fingerprint(response.request),
+										'server': server})
 
 		# Extract total number of pages from pagination script.
 		total_pages = response.xpath('//div[@class="page"]/script/text()').extract_first()

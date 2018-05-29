@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -40,7 +41,8 @@ class hainan_cdi(scrapy.Spider):
 		urls = response.xpath('//div[@id="mainrconlist"]/ul/li/h1/a/@href').extract()
 		for href in urls:
 			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address,
-																'server': server})
+										'deltafetch_key': request_fingerprint(response.request),
+										'server': server})
 
 		# Get total number of records and generate next page urls.
 		final_page = response.xpath('//div[@id="pages"]/a[text()="末页"]/@href').extract_first()
@@ -122,6 +124,7 @@ class hainan_cdi(scrapy.Spider):
         				'width': 600,
         				'render_all': 1,
         				'wait': 3.0,
+					'proxy': 'http://b82ca02ebc694f7cb3c7f6eb88052ffd:@proxy.crawlera.com:8010'
     					}
 		yield SplashRequest(response.url,
 							self.create_screenshot,

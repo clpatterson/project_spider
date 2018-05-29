@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -35,7 +36,8 @@ class ningxia_cdi(scrapy.Spider):
 		urls = response.xpath('//ul[@class="news-list"]/li/a/@href').extract()
 		for href in urls:
 			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address,
-																'server': server})
+										'deltafetch_key': request_fingerprint(response.request),
+										'server': server})
 
 		# Extract total number of pages from pagination script.
 		total_pages = response.xpath('//div[@class="page"]/span/font/script/text()').extract_first()

@@ -101,3 +101,15 @@ class TutorialDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+# Middleware to enable shutdown of crawlera for certain requests by passing dont_proxy meta key.
+class ShutdownCrawleraMiddleware(object):
+    proxy = 'http://proxy.crawlera.com:8010'
+    def process_request(self, request, spider):
+        if hasattr(request, 'meta'):
+            if request.meta.get('dont_proxy') is True:
+                if request.meta.get('proxy'):
+                    request.meta.pop('proxy')
+            else:
+                if not request.meta.get('proxy'):
+                    request.meta['proxy'] = self.proxy

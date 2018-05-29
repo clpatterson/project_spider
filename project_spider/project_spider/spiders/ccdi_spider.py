@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -33,7 +34,8 @@ class ccdi_scraper(scrapy.Spider):
 		# Follow links for 20 documents listed on a subdirectory page
 		urls = response.xpath('//ul[@class="list_news_dl fixed"]/li/a/@href').extract()
 		for href in urls:
-			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address})
+			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address,
+										'deltafetch_key': request_fingerprint(response.request)})
 
 		total_pages = re.findall(r'createPageHTML\((\d+?),', body)
 		total_pages = int(total_pages[0])

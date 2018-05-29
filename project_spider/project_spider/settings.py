@@ -28,6 +28,10 @@ DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 #    return splash:html()
 #end)"""
 
+# Crawlera
+CRAWLERA_ENABLED = True
+CRAWLERA_APIKEY = 'b82ca02ebc694f7cb3c7f6eb88052ffd'
+
 
 # Local development database
 #DATABASE = {
@@ -50,7 +54,7 @@ DATABASE = {
 }
 
 # Use Delta-fetch so items are only crawled once
-DELTAFETCH_ENABLED = True
+DELTAFETCH_ENABLED = False
 
 
 
@@ -71,8 +75,14 @@ ROBOTSTXT_OBEY = False
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY = 2
+CRAWLERA_PRESERVE_DELAY = True
+# set to 600 as per crawlera best practices
+DOWNLOAD_TIMEOUT = 600
+CRAWLERA_DOWNLOAD_TIMEOUT = 600
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
+#CONCURRENT_REQUESTS = 32
+# concurrent_requests_per_ip address was set at 16 by default
+#CONCURRENT_REQUESTS_PER_DOMAIN = 32
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
@@ -90,9 +100,9 @@ DOWNLOAD_DELAY = 2
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
+	'scrapy_deltafetch.DeltaFetch': 51,
 	'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
-    'scrapy_deltafetch.DeltaFetch': 101,
-#    'tutorial.middlewares.TutorialSpiderMiddleware': 543,
+    #    'tutorial.middlewares.TutorialSpiderMiddleware': 543,
 }
 
 # Enable or disable downloader middlewares
@@ -100,6 +110,8 @@ SPIDER_MIDDLEWARES = {
 DOWNLOADER_MIDDLEWARES = {
 	'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 1,
     #'scrapy_crawl_once.CrawlOnceMiddleware': 50,
+	'scrapy_crawlera.CrawleraMiddleware': 610,
+	'project_spider.middlewares.ShutdownCrawleraMiddleware': 620,
 	#'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
     #'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
 	'scrapy_splash.SplashCookiesMiddleware': 723,

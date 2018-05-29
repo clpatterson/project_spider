@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -38,7 +39,8 @@ class gansu_cdi(scrapy.Spider):
 		post_urls = response.xpath('//ul[@class="list"]/li/a/@href').extract() 
 		for url in post_urls:
 			yield response.follow(url, self.parse_docs, meta={'ip_address': ip_address,
-																'server': server})
+										'deltafetch_key': request_fingerprint(response.request),
+										'server': server})
 
 		# Get next page.
 		next_page = response.xpath('//div[@class="page"]/a[text()="下一页"]/@href').extract_first()

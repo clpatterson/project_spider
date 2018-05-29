@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -33,8 +34,9 @@ class heilongjiang_cdi(scrapy.Spider):
 		# Follow all links for posts.
 		urls = response.xpath('//div[@class="main01_con font_16"]/ul/li/a/@href').extract()
 		for href in urls:
-			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address, 
-																'server': server})
+			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address,
+										'deltafetch_key': request_fingerprint(response.request),
+										'server': server})
 
 		#get next page url from next page bottom
 		next_page = response.xpath('//div[@class="page_list1"]/a[@title="下一页"]/@href').extract_first()

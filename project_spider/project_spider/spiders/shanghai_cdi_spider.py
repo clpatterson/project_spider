@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -35,7 +36,8 @@ class shanghai_cdi(scrapy.Spider):
 		urls = response.xpath('//ul[@class="newsList"]/li/a/@href').extract()
 		for href in urls:
 			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address,
-																'server': server})
+										'deltafetch_key': request_fingerprint(response.request),
+										'server': server})
 
 		#get next page url from next page bottom
 		next_page = response.xpath('//div[@class="pageNav"]/span/a[text()=">"]/@href').extract_first()
@@ -79,10 +81,14 @@ class shanghai_cdi(scrapy.Spider):
 		date = re.sub(r'日', '', date)
 		
 		source_tag = response.xpath('//p[@class="source"]').extract()
+		if source_tag == []:
+			source = ''
+		source = source_tag[0]
+		source = re.findall(r'>([\u4e00-\u9fff]+[\u3000-\u303F]?[\u4e00-\u9fff]+)<', source)
 		if source == []:
 			source = ''
-		source = re.findall(r'>([\u4e00-\u9fff]+[\u3000-\u303F]?[\u4e00-\u9fff]+)<', source_tag[0])
-		source = source[0]
+		else:
+			source = source[0]
 
 		url = response.url
 		id_num = re.findall(r'/u1ai(\d*).html', url)[0]
@@ -111,6 +117,7 @@ class shanghai_cdi(scrapy.Spider):
         				'width': 600,
         				'render_all': 1,
         				'wait': 3.0,
+					'proxy':'http://pattersoncharlesl:KUtKehiWcRcorGgM2@us-wa.proxymesh.com:31280'
     					}
 		yield SplashRequest(response.url,
 							self.create_screenshot,

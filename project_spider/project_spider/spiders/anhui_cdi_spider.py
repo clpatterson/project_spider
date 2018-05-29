@@ -2,14 +2,14 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
 
-class anwei_cdi(scrapy.Spider):
+class anhui_cdi(scrapy.Spider):
 	"""Scrapes all the posts from the ministry level and county level
-	case announcement sections (案件发布) on the Anhui website.
-	"""
+	case announcement sections (案件发布) on the Anhui website."""
 
 	name = 'anhui'
 	start_urls = [
@@ -18,7 +18,7 @@ class anwei_cdi(scrapy.Spider):
 	]
 
 	def parse(self,response):
-		
+
 		# Get IP address.
 		url = response.url
 		base_url = re.findall(r'www\.(.*?)/', url)
@@ -39,7 +39,8 @@ class anwei_cdi(scrapy.Spider):
 
 		for href in urls:
 			yield response.follow(href, self.parse_docs, meta={'ip_address': ip_address,
-																'server': server})
+										'deltafetch_key': request_fingerprint(response.request),
+										'server': server})
 
 		#get next page url from next page bottom
 		next_page = response.xpath('//div[@class="page ov"]/a[text()=">"]/@href').extract_first()

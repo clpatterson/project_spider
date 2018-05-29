@@ -2,6 +2,7 @@ import re
 import socket
 import scrapy
 from scrapy_splash import SplashRequest
+from scrapy.utils.request import request_fingerprint
 from project_spider.items import post
 from project_spider.screenshot_format import create_pdf
 
@@ -42,9 +43,10 @@ class jiangsu_cdi(scrapy.Spider):
 			href = response.urljoin(href)
 			yield SplashRequest(href, self.parse_docs, endpoint='render.html',
 				args={'wait': 3.0},
-				meta={'ip_address': ip_address, 
-						'server': server},
-			)
+				meta={'ip_address': ip_address,
+						'deltafetch_key': request_fingerprint(response.request),
+						'server': server}
+		)
 
 		# Get next page url from next page bottom.
 		next_page = response.xpath('//a[@title="下页"]/@href').extract_first()
