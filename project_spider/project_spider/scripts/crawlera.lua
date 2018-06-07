@@ -48,5 +48,5 @@ function main(splash)
     assert(splash:go(splash.args.url))
     assert(splash:wait(3.0))
     
-   return {png=splash:png{width=600,render_all=true}} 
+   return {har=splash:har(),png=splash:png{width=600,render_all=true}} 
 end
