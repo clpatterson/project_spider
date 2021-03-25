@@ -53,7 +53,7 @@ pystache==0.5.3
 python-daemon==1.5.2
 python-dateutil==2.1
 pyxattr==0.5.0
-PyYAML==3.10
+PyYAML==5.4
 queuelib==1.5.0
 requests==1.2.3
 rsa==3.4.1
