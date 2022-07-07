@@ -55,7 +55,7 @@ python-dateutil==2.1
 pyxattr==0.5.0
 PyYAML==3.10
 queuelib==1.5.0
-requests==1.2.3
+requests==2.20.0
 rsa==3.4.1
 Scrapy==1.5.0
 scrapy-deltafetch==1.2.1
