@@ -62,7 +62,7 @@ scrapy-deltafetch==1.2.1
 service-identity==17.0.0
 simplejson==3.6.5
 six==1.8.0
-Twisted==18.4.0
+Twisted==22.10.0
 urlgrabber==3.10
 urllib3==1.8.2
 virtualenv==15.1.0
